@@ -1,52 +1,49 @@
-/*
-    Lab Manual 02 - Data Structures Lab (CL-2001)
-    Thomas & Friends: Train Compartment Manager
-    ------------------------------------------------------
-    Implements a Singly Linked List (Train) with a nested
-    Compartment class (Node) as required by the lab manual.
-
-    NOTE: Rename this file to match YOUR roll number before
-    submission, e.g. l22XXXX.cpp
-*/
-
 #include <iostream>
 #include <string>
 using namespace std;
 
-class Train {
+class Train
+{
 private:
     // ---------- Nested Node (Compartment) class ----------
-    class Compartment {
+    class Compartment
+    {
     public:
         int id;
-        string cargo;      // Passengers, Coal, Mail, Toys
-        Compartment* next;
+        string cargo; // Passengers, Coal, Mail, Toys
+        Compartment *next;
 
         Compartment(int id, string cargo) : id(id), cargo(cargo), next(nullptr) {}
     };
 
-    Compartment* head;
+    Compartment *head;
 
 public:
     Train() : head(nullptr) {}
 
     // ---------- 1. Attach Compartment at Start (VIP) ----------
-    void attachAtStart(int id, string cargo) {
-        Compartment* newComp = new Compartment(id, cargo);
+    void attachAtStart(int id, string cargo)
+    {
+        Compartment *newComp = new Compartment(id, cargo);
         newComp->next = head;
         head = newComp;
         cout << "Compartment " << id << " (" << cargo << ") attached at start.\n";
     }
 
     // ---------- 2. Attach Compartment at End (Normal) ----------
-    void attachAtEnd(int id, string cargo) {
-        Compartment* newComp = new Compartment(id, cargo);
+    void attachAtEnd(int id, string cargo)
+    {
+        Compartment *newComp = new Compartment(id, cargo);
 
-        if (head == nullptr) {
+        if (head == nullptr)
+        {
             head = newComp;
-        } else {
-            Compartment* temp = head;
-            while (temp->next != nullptr) {
+        }
+        else
+        {
+            Compartment *temp = head;
+            while (temp->next != nullptr)
+            {
                 temp = temp->next;
             }
             temp->next = newComp;
@@ -55,48 +52,56 @@ public:
     }
 
     // ---------- 3. Attach Compartment After a Specific Compartment ----------
-    void attachAfter(int targetId, int newId, string cargo) {
-        Compartment* temp = head;
-        while (temp != nullptr && temp->id != targetId) {
+    void attachAfter(int targetId, int newId, string cargo)
+    {
+        Compartment *temp = head;
+        while (temp != nullptr && temp->id != targetId)
+        {
             temp = temp->next;
         }
 
-        if (temp == nullptr) {
+        if (temp == nullptr)
+        {
             cout << "Target compartment " << targetId << " not found.\n";
             return;
         }
 
-        Compartment* newComp = new Compartment(newId, cargo);
+        Compartment *newComp = new Compartment(newId, cargo);
         newComp->next = temp->next;
         temp->next = newComp;
         cout << "Compartment " << newId << " (" << cargo << ") attached after " << targetId << ".\n";
     }
 
     // ---------- 4. Detach Compartment ----------
-    void detach(int id) {
-        if (head == nullptr) {
+    void detach(int id)
+    {
+        if (head == nullptr)
+        {
             cout << "Train is empty.\n";
             return;
         }
 
         // Special case: detaching the head
-        if (head->id == id) {
-            Compartment* toDelete = head;
+        if (head->id == id)
+        {
+            Compartment *toDelete = head;
             head = head->next;
             delete toDelete;
             cout << "Compartment " << id << " detached.\n";
             return;
         }
 
-        Compartment* prev = head;
-        Compartment* curr = head->next;
+        Compartment *prev = head;
+        Compartment *curr = head->next;
 
-        while (curr != nullptr && curr->id != id) {
+        while (curr != nullptr && curr->id != id)
+        {
             prev = curr;
             curr = curr->next;
         }
 
-        if (curr == nullptr) {
+        if (curr == nullptr)
+        {
             cout << "Compartment " << id << " not found.\n";
             return;
         }
@@ -107,10 +112,13 @@ public:
     }
 
     // ---------- 5. Search Compartment ----------
-    void search(int id) {
-        Compartment* temp = head;
-        while (temp != nullptr) {
-            if (temp->id == id) {
+    void search(int id)
+    {
+        Compartment *temp = head;
+        while (temp != nullptr)
+        {
+            if (temp->id == id)
+            {
                 cout << "Compartment " << id << " is in the train.\n";
                 return;
             }
@@ -120,15 +128,18 @@ public:
     }
 
     // ---------- 6. Display Train ----------
-    void display() {
-        if (head == nullptr) {
+    void display()
+    {
+        if (head == nullptr)
+        {
             cout << "Train is empty.\n";
             return;
         }
 
         cout << "Train Composition:\n";
-        Compartment* temp = head;
-        while (temp != nullptr) {
+        Compartment *temp = head;
+        while (temp != nullptr)
+        {
             cout << temp->id << " (" << temp->cargo << ") -> ";
             temp = temp->next;
         }
@@ -136,10 +147,12 @@ public:
     }
 
     // ---------- 7. Count Compartments ----------
-    int count() {
+    int count()
+    {
         int c = 0;
-        Compartment* temp = head;
-        while (temp != nullptr) {
+        Compartment *temp = head;
+        while (temp != nullptr)
+        {
             c++;
             temp = temp->next;
         }
@@ -148,23 +161,28 @@ public:
 
     // ---------- 9. Swap Two Compartments ----------
     // Swaps the data (id + cargo) of the two compartments with the given IDs.
-    void swapCompartments(int id1, int id2) {
-        if (id1 == id2) {
+    void swapCompartments(int id1, int id2)
+    {
+        if (id1 == id2)
+        {
             cout << "Cannot swap a compartment with itself.\n";
             return;
         }
 
-        Compartment* first = head;
-        while (first != nullptr && first->id != id1) {
+        Compartment *first = head;
+        while (first != nullptr && first->id != id1)
+        {
             first = first->next;
         }
 
-        Compartment* second = head;
-        while (second != nullptr && second->id != id2) {
+        Compartment *second = head;
+        while (second != nullptr && second->id != id2)
+        {
             second = second->next;
         }
 
-        if (first == nullptr || second == nullptr) {
+        if (first == nullptr || second == nullptr)
+        {
             cout << "One or both compartments not found.\n";
             return;
         }
@@ -183,10 +201,12 @@ public:
     }
 
     // ---------- Destructor: Destruct the Train properly ----------
-    ~Train() {
-        Compartment* temp = head;
-        while (temp != nullptr) {
-            Compartment* toDelete = temp;
+    ~Train()
+    {
+        Compartment *temp = head;
+        while (temp != nullptr)
+        {
+            Compartment *toDelete = temp;
             temp = temp->next;
             delete toDelete;
         }
@@ -196,11 +216,13 @@ public:
 };
 
 // ---------- Menu-driven main ----------
-int main() {
+int main()
+{
     Train train;
     int choice;
 
-    do {
+    do
+    {
         cout << "\n=== Thomas & Friends: Train Compartment Manager ===\n";
         cout << "1. Attach Compartment at Start (VIP)\n";
         cout << "2. Attach Compartment at End (Normal)\n";
@@ -217,67 +239,68 @@ int main() {
         int id, targetId, newId, id1, id2;
         string cargo;
 
-        switch (choice) {
-            case 1:
-                cout << "Enter Compartment ID: ";
-                cin >> id;
-                cout << "Enter Cargo Type (Passengers, Coal, Mail, Toys): ";
-                cin >> cargo;
-                train.attachAtStart(id, cargo);
-                break;
+        switch (choice)
+        {
+        case 1:
+            cout << "Enter Compartment ID: ";
+            cin >> id;
+            cout << "Enter Cargo Type (Passengers, Coal, Mail, Toys): ";
+            cin >> cargo;
+            train.attachAtStart(id, cargo);
+            break;
 
-            case 2:
-                cout << "Enter Compartment ID: ";
-                cin >> id;
-                cout << "Enter Cargo Type (Passengers, Coal, Mail, Toys): ";
-                cin >> cargo;
-                train.attachAtEnd(id, cargo);
-                break;
+        case 2:
+            cout << "Enter Compartment ID: ";
+            cin >> id;
+            cout << "Enter Cargo Type (Passengers, Coal, Mail, Toys): ";
+            cin >> cargo;
+            train.attachAtEnd(id, cargo);
+            break;
 
-            case 3:
-                cout << "Enter Target Compartment ID: ";
-                cin >> targetId;
-                cout << "Enter New Compartment ID: ";
-                cin >> newId;
-                cout << "Enter Cargo Type (Passengers, Coal, Mail, Toys): ";
-                cin >> cargo;
-                train.attachAfter(targetId, newId, cargo);
-                break;
+        case 3:
+            cout << "Enter Target Compartment ID: ";
+            cin >> targetId;
+            cout << "Enter New Compartment ID: ";
+            cin >> newId;
+            cout << "Enter Cargo Type (Passengers, Coal, Mail, Toys): ";
+            cin >> cargo;
+            train.attachAfter(targetId, newId, cargo);
+            break;
 
-            case 4:
-                cout << "Enter Compartment ID to detach: ";
-                cin >> id;
-                train.detach(id);
-                break;
+        case 4:
+            cout << "Enter Compartment ID to detach: ";
+            cin >> id;
+            train.detach(id);
+            break;
 
-            case 5:
-                cout << "Enter Compartment ID to search: ";
-                cin >> id;
-                train.search(id);
-                break;
+        case 5:
+            cout << "Enter Compartment ID to search: ";
+            cin >> id;
+            train.search(id);
+            break;
 
-            case 6:
-                train.display();
-                break;
+        case 6:
+            train.display();
+            break;
 
-            case 7:
-                cout << "Total Compartments: " << train.count() << "\n";
-                break;
+        case 7:
+            cout << "Total Compartments: " << train.count() << "\n";
+            break;
 
-            case 9:
-                cout << "Enter first Compartment ID: ";
-                cin >> id1;
-                cout << "Enter second Compartment ID: ";
-                cin >> id2;
-                train.swapCompartments(id1, id2);
-                break;
+        case 9:
+            cout << "Enter first Compartment ID: ";
+            cin >> id1;
+            cout << "Enter second Compartment ID: ";
+            cin >> id2;
+            train.swapCompartments(id1, id2);
+            break;
 
-            case 0:
-                cout << "Exiting... Train will be destructed properly.\n";
-                break;
+        case 0:
+            cout << "Exiting... Train will be destructed properly.\n";
+            break;
 
-            default:
-                cout << "Invalid choice. Please try again.\n";
+        default:
+            cout << "Invalid choice. Please try again.\n";
         }
 
     } while (choice != 0);
